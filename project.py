@@ -105,7 +105,7 @@ class Player(Goat):
 
 R = [random.randrange(1, 7), random.randrange(1, 7), random.randrange(
     1, 7), random.randrange(1, 7), random.randrange(1, 7), random.randrange(1, 7)]
-count = [0, 0, 0, 0, 0, 0]
+#count = [0, 0, 0, 0, 0, 0]
 goatColors = ["BLack", "Orange", "Purple", "Green", "Red", "White"]
 players = []
 
@@ -148,29 +148,75 @@ while True:
 for i in range(0, n):
     print("Enter Player", i+1, "name:")
     name = input()
+    players.append(name)
     print("\n",name, "Has", goatColors[i], "Goat\n")
 
-    print("Enter 4 Goat Locations\n")
-    goat1column = input()
-    goat1row = int(input())
+  #  print("Enter 4 Goat Locations\n")
+   # goat1column = input("In Alphabet form:")
+#    goat1row = int(input())
 
-    goat2column = input()
-    goat2row = int(input())
+#    goat2column = input("In Alphabet form:")
+#    goat2row = int(input())
 
-    goat3column = input()
-    goat3row = int(input())
+#    goat3column = input("In Alphabet form:")
+#    goat3row = int(input())
 
-    goat4column = input()
-    goat4row = int(input())
+#    goat4column = input("In Alphabet form:")
+ #   goat4row = int(input())
 
-    playerObj = Player(name,goatColors[i])
-    playerObj.setGoat(0,goat1column,goat1row)
-    playerObj.setGoat(1,goat2column,goat2row)
-    playerObj.setGoat(2,goat3column,goat3row)
-    playerObj.setGoat(3,goat4column,goat4row)
-    players.append(playerObj)
+#    playerObj = Player(name,goatColors[i])
+ #   playerObj.setGoat(0,goat1column,goat1row)
+ #   playerObj.setGoat(1,goat2column,goat2row)
+#    playerObj.setGoat(2,goat3column,goat3row)
+  #  playerObj.setGoat(3,goat4column,goat4row)
+  #  players.append(playerObj)
 
 
 for i in range(0,n):
     print(players[i],"\n")
+G=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+count=[0,0,0,0,0,0]
+#print(type(G[0][0]))
+#print(type(count[i]))
+#Starting the game
+while True:
+    if (count[0]==4):
+        print(players[0],"Wins the game")
+        break
+           
+    if count[1]==4:
+        print(players[1],"Wins the game")
+        break
+    if count[2]==4:
+        print(players[2],"Wins the game")
+        break
 
+    if (count[3]==4):
+        print(players[3],"Wins the game")
+        break
+    if count[4]==4:
+        print(players[4],"Wins the game")
+        break
+
+    if count[5]==4:
+        print(players[5],"Wins the game")
+        break
+    
+
+    for i in range(0,n):
+         print(players[i],"'s turn")
+         print("Enter to roll the dice:")
+         l=input()
+         dice=random.randrange(1,7)
+         print("Dice showed ",dice)
+    #     break
+         G[i][count[i]] = G[i][count[i]]+dice
+      
+         if G[i][count[i]]>=9:
+             G[i][count[i]]=9
+             count[i]=count[i]+1
+             print(players[i],"'s",count[i],"goat reached final spot")
+         
+         print(players[i],"goat's postion:")
+         for e in G[i]:
+             print(chr(65+e),i+1,goatColors[i])
