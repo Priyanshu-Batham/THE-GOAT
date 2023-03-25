@@ -37,18 +37,15 @@ class Goat:
     column = '-1'
 
     # setting the color
-    def _init_(self, goatColor):
+    def __init__(self, goatColor):
         self.color = goatColor
 
     def getColor(self):
         return self.color
 
     def getLocation(self):
-        if (self.row == -1 and self.column == ''):
-            return -1
-        else:
-            location = self.column + str(self.row)
-            return location
+        location = self.column + str(self.row)
+        return location
 
     def setLocation(self, x, y):
         self.column = x
@@ -73,15 +70,21 @@ class Player(Goat):
     color = ''
     playerName = ''
     playerGoats = []
-    def _init_(self, playerName, color):
+    def __init__(self, playerName, color):
         self.color = color
         self.playerName = playerName
         for i in range(0,4):
             obj = Goat(color)
             self.playerGoats.append(obj)
 
-    def _str_(self) -> str:
+    def __str__(self) -> str:
         return f"Name: {self.playerName}\t Color: {self.color}\nGoat 1: {self.getGoat(0)}\nGoat 2: {self.getGoat(1)}\nGoat 3: {self.getGoat(2)}\nGoat 4: {self.getGoat(3)}"
+
+    def name(self):
+        return self.playerName
+
+    def getColor(self):
+        return self.color
 
     def addGoat(self):
         obj = Goat(self.color)
@@ -131,10 +134,19 @@ def board():
             print("|", end="")
             if R[i] == r:
                 print(" X ", end="")
-            elif r==G[i][count[i]]:
-                print("",goatColors[i][0],count[i],end="")
             else:
-                print(end="   ")
+                flag = 0
+                for a in players:
+                    for g in range(0,4):
+                        loc = a.getGoat(g)
+                        if(ord(loc[0])-65 == i and (int)(loc[1]) == r):
+                            flag = 1
+                            print(a.getColor()[0],g)
+                            break
+                    if(flag == 1):
+                        break
+                if(flag == 0):
+                    print(end="   ")
         print("\n")
     drawline()
 
@@ -152,7 +164,8 @@ while True:
 for i in range(0, n):
     print("Enter Player", i+1, "name:")
     name = input()
-    players.append(name)
+    p = Player(name,goatColors[i])
+    players.append(p)
     print("\n",name, "Has", goatColors[i], "Goat\n")
 
   #  print("Enter 4 Goat Locations\n")
@@ -176,8 +189,8 @@ for i in range(0, n):
   #  players.append(playerObj)
 
 
-for i in range(0,n):
-    print(players[i],"\n")
+for i in players:
+    print(i,"\n")
 
 #print(type(G[0][0]))
 #print(type(count[i]))
@@ -207,7 +220,7 @@ while True:
     
 
     for i in range(0,n):
-         print(players[i],"'s turn")
+         print(players[i].name(),"'s turn")
          print("Enter to roll the dice:")
          l=input()
          dice=random.randrange(1,7)
@@ -222,6 +235,7 @@ while True:
                  print("This goat is already at the end")
              else:
                  G[i][d-1] = G[i][d-1]+dice
+                 players[i].setGoat(d-1,chr(dice + 65),i)
                  break
                  
              
@@ -231,7 +245,8 @@ while True:
              count[i]=count[i]+1
              print(players[i],"'s",count[i],"goat reached final spot")
          
-         print(players[i],"goat's postion:")
+         print(players[i].name(),"goat's postion:")
          board()
-         for e in G[i]:
-             print(chr(65+e),i+1,goatColors[i])
+         print(players[i])
+        #  for e in G[i]:
+        #      print(chr(65+e),i+1,goatColors[i])
