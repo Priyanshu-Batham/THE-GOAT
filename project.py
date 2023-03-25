@@ -213,10 +213,21 @@ while True:
          dice=random.randrange(1,7)
          print("Dice showed ",dice)
     #     break
-         G[i][count[i]] = G[i][count[i]]+dice
+         
+         while True:
+             d=int(input("Enter which number goat do you want to move 1:4="))
+             if d>4 and d<1:
+                 print("Invalid choice")
+             elif G[i][d-1]>=8:
+                 print("This goat is already at the end")
+             else:
+                 G[i][d-1] = G[i][d-1]+dice
+                 break
+                 
+             
       
-         if G[i][count[i]]>=9:
-             G[i][count[i]]=8
+         if G[i][d-1]>=9:
+             G[i][d-1]=8
              count[i]=count[i]+1
              print(players[i],"'s",count[i],"goat reached final spot")
          
