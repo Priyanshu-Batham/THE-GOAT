@@ -17,16 +17,7 @@ class Stack():
     def peek(self):
         return self.items[-1]
 
-'''
-# testing the stack class
-stack = Stack()
-stack.push('hello')
-print(stack.peek())
-stack.push('priyanshu')
-print(stack.pop())
-print(stack.peek())
-# Stack class working perfectly
-'''
+
 
 # --------------------------GOAT CLASS--------------------->>
 
@@ -37,7 +28,7 @@ class Goat:
     column = '-1'
 
     # setting the color
-    def __init__(self, goatColor):
+    def _init_(self, goatColor):
         self.color = goatColor
 
     def getColor(self):
@@ -73,14 +64,14 @@ class Player(Goat):
     color = ''
     playerName = ''
     playerGoats = []
-    def __init__(self, playerName, color):
+    def _init_(self, playerName, color):
         self.color = color
         self.playerName = playerName
         for i in range(0,4):
             obj = Goat(color)
             self.playerGoats.append(obj)
 
-    def __str__(self) -> str:
+    def _str_(self) -> str:
         return f"Name: {self.playerName}\t Color: {self.color}\nGoat 1: {self.getGoat(0)}\nGoat 2: {self.getGoat(1)}\nGoat 3: {self.getGoat(2)}\nGoat 4: {self.getGoat(3)}"
 
     def addGoat(self):
@@ -106,9 +97,11 @@ class Player(Goat):
 R = [random.randrange(1, 7), random.randrange(1, 7), random.randrange(
     1, 7), random.randrange(1, 7), random.randrange(1, 7), random.randrange(1, 7)]
 #count = [0, 0, 0, 0, 0, 0]
-goatColors = ["BLack", "Orange", "Purple", "Green", "Red", "White"]
+goatColors = ["Black", "Orange", "Purple", "Green", "Red", "White"]
 players = []
-
+G=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
+count=[0,0,0,0,0,0]
+flag=0
 # visual representation of the game board------------------------------>>>
 def drawline():
     for i in range(0, 10):
@@ -129,8 +122,17 @@ def board():
             print("|", end="")
             if R[i] == r:
                 print(" X ", end="")
+                
+                
             else:
-                print(end="   ")
+                ct = 0
+                for z in range(0,4):
+                    if r > 0 and r==G[i][z]:
+                        print("",goatColors[i][0],z,end="")
+                        ct = ct+1
+                if(ct == 0):
+                    print(end="   ")
+                r+= ct
         print("\n")
     drawline()
 
@@ -150,34 +152,11 @@ for i in range(0, n):
     name = input()
     players.append(name)
     print("\n",name, "Has", goatColors[i], "Goat\n")
-
-  #  print("Enter 4 Goat Locations\n")
-   # goat1column = input("In Alphabet form:")
-#    goat1row = int(input())
-
-#    goat2column = input("In Alphabet form:")
-#    goat2row = int(input())
-
-#    goat3column = input("In Alphabet form:")
-#    goat3row = int(input())
-
-#    goat4column = input("In Alphabet form:")
- #   goat4row = int(input())
-
-#    playerObj = Player(name,goatColors[i])
- #   playerObj.setGoat(0,goat1column,goat1row)
- #   playerObj.setGoat(1,goat2column,goat2row)
-#    playerObj.setGoat(2,goat3column,goat3row)
-  #  playerObj.setGoat(3,goat4column,goat4row)
-  #  players.append(playerObj)
-
+    
 
 for i in range(0,n):
     print(players[i],"\n")
-G=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]]
-count=[0,0,0,0,0,0]
-#print(type(G[0][0]))
-#print(type(count[i]))
+
 #Starting the game
 while True:
     if (count[0]==4):
@@ -209,14 +188,42 @@ while True:
          l=input()
          dice=random.randrange(1,7)
          print("Dice showed ",dice)
-    #     break
-         G[i][count[i]] = G[i][count[i]]+dice
+  
+         
+         while True:
+             d=int(input("Enter which number goat do you want to move 1:4="))
+             if d>4 or d<1:
+                 print("Invalid choice")
+             elif G[i][d-1]>=8:
+                 print("This goat is already at the end")
+                 if G[0]==[8,8,8,8]:
+                     break
+                 if G[1]==[8,8,8,8]:
+                     break
+                 if G[2]==[8,8,8,8]:
+                     break
+                 if G[3]==[8,8,8,8]:
+                     break
+                 if G[4]==[8,8,8,8]:
+                     break
+                 if G[5]==[8,8,8,8]:
+                     break
+                 
+             
+             else:
+                 G[i][d-1] = G[i][d-1]+dice
+                 break
+             if flag==1:
+                 break
+                 
+             
       
-         if G[i][count[i]]>=9:
-             G[i][count[i]]=9
+         if G[i][d-1]>=8:
+             G[i][d-1]=8
              count[i]=count[i]+1
              print(players[i],"'s",count[i],"goat reached final spot")
          
          print(players[i],"goat's postion:")
+         board()
          for e in G[i]:
              print(chr(65+e),i+1,goatColors[i])
